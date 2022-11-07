@@ -1,127 +1,73 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-void zad1_1(int a, int b){
-    if(a>b){
-        printf("pierwsza");
-    }else{
-        printf("druga");
-    }
+
+float FtoC(float f) {return (f - 32.0) * 5.0/9.0;}
+float FtoK(float f) {return (f + 459.67) * 5.0/9.0;}
+float CtoF(float c) {return (c * 9.0)/5.0 + 32.0;}
+float CtoK(float c) {return c + 273.15;}
+float KtoC(float k) {return k - 273.15;}
+float KtoF(float k) {return  (k * 9.0)/5.0 - 459.67;}
+
+void getValues(char label,float* a){
+    printf("podaj %c:",label);
+    scanf("%f", a);
 }
-int zad1_2(int a, int b){
-    if(a>b){
-        return a;
-    }else{
-        return b;
+int sprawdz(float temp, char stopnie){
+    if(( temp<0 && stopnie == 'K' )||( temp<-273.15 && stopnie == 'C' )||( temp<-469.67 && stopnie == 'F' )){
+        printf("Nie ma takiej temperatury.");
+        return -1;
     }
+    printf("%c: %f\n", stopnie, temp);
+    return 0;
 }
-void zad2(unsigned int n){
-    int count = 1;
-    while (count <= n){
-        if (n%count == 0){
-            printf("%d\n", count);
+void initMenu(){
+    int br = 0;
+    while (br == 0){
+        printf("1 - Przelicz F na C\n");
+        printf("2 - Przelicz F na K\n");
+        printf("3 - Przelicz C na F\n");
+        printf("4 - Przelicz C na K\n");
+        printf("5 - Przelicz K na C\n");
+        printf("6 - Przelicz K na F\n");
+        printf("7 - Zakoncz program\n");
+        printf("Podaj typ konwertera [1-7]:");
+        int x = 0;
+        scanf("%d", &x);
+        if(x>7 || x<0){
+            printf("Zły numer konwertera");
         }
-        count++;
-    }
-}
-float suma(float a, float b){
-    return a+b;
-}
-float mnozenie(float a, float b){
-    return a*b;
-}
-float roznica(float a, float b){
-    return a-b;
-}
-float dzielenie(float a, float b){
-    if(b == 0){
-        return 0;
-    }
-    return a/b;
-}
-
-
-
-void zadanie3(){
-    int x = 0;
-    while (x != 1){
-        float a,b;
-        char znak;
-        printf("\npodaj liczbe a: ");
-        scanf("%f", &a);
-        printf("podaj liczbe b: ");
-        scanf("%f", &b);
-        printf("podaj rodzaj dzialania [*,-,/,+] lub wpisz cokolwiek by wyjsc: ");
-        scanf("%s", &znak);
-        switch (znak) {
-            case '+':
-                printf("%f", suma(a,b));
+        float a=0;
+        switch(x) {
+            case 1:
+                getValues('F', &a);
+                sprawdz(FtoC(a), 'C');
                 break;
-            case '-':
-                printf("%f", roznica(a,b));
+            case 2:
+                getValues('F', &a);
+                sprawdz(FtoK(a), 'K');
                 break;
-            case '*':
-                printf("%f", mnozenie(a,b));
+            case 3:
+                getValues('C', &a);
+                sprawdz(CtoF(a), 'F');
                 break;
-            case '/':
-                if(b == 0){
-                    printf("nie wolno dzielic przez 0");
-                    break;
-                }
-                printf("%f", dzielenie(a,b));
+            case 4:
+                getValues('C', &a);
+                sprawdz(CtoK(a), 'K');
                 break;
-            default:
-                x = 1;
+            case 5:
+                getValues('K', &a);
+                sprawdz(KtoC(a), 'C');
+                break;
+            case 6:
+                getValues('K', &a);
+                sprawdz(KtoF(a), 'F');
+                break;
+            case 7:
+                br = 1;
         }
     }
 }
-int zadanie4(unsigned int a, unsigned int b){
-    if(b == 0) return 1;
-    int res = 1;
-    for(int i = b; i>0; i--){
-        res *= a;
-    }
-    return res;
-}
-int zadanie5(unsigned int n){
-    if(n < 2) return 1;
-    int s=1;
-    while(0 < n){
-        s=s*n;
-        n--;
-    }
-    return s;
-}
-int zadanie6(unsigned int n){
-    return zadanie4(2, n);
-}
-int zadanie7(){
-    unsigned int x;
-    scanf("%d", &x);
-    if(x>10){
-        return 0;
-    }
-    srand(NULL);
-    int count = 0;
-    for(int i=0;i<10;i++){
-        int wyn = (rand()%10)+1;
-        if(wyn == x) count++;
-    }
-    return (count*100)/10;
-}
-float zadanie8_1(int n){
-    return (float)n/2.0;
-}
-float zadanie8_2(int n){
-    return ((float)n-1)/2.0;
-}
-void zadanie8(){
-    for(int i = 0; i<100; i++){
-        if(i%2 == 0) printf("%f \n",zadanie8_1(i));
-        else printf("%f \n ",zadanie8_2(i));
-    }
-}
-
 int main() {
-    zadanie8();
+    initMenu();
+    return 0;
 }
